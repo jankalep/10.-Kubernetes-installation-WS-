@@ -1,3 +1,5 @@
+name: Check Status of Pods
+
 on: workflow_dispatch
 
 jobs:
