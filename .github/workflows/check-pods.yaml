@@ -8,11 +8,11 @@ jobs:
       run: |
         mkdir ~/.ssh
         eval `ssh-agent -s`
-        ssh-add <<< "${{ secrets.SSH_KEY }}"
+        ssh-add - <<< "${{ secrets.SSH_KEY }}"
         ssh-keyscan -p 32510 ${{ secrets.JUMP_HOST }} >> ~/.ssh/known_hosts
         ssh ${{ secrets.JUMP_USERNAME }}@${{ secrets.JUMP_HOST }} -p 32510 ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
         ssh -o ProxyCommand="ssh -W %h:%p ${{ secrets.JUMP_USERNAME }}@${{ secrets.JUMP_HOST }} -p 32510" ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "kubectl get pods -A" >> init_pods.log
-    
+
     - name: Get status pods
       id: status-pods
       run:
